@@ -1,6 +1,7 @@
 import sys
 import zipfile
 
+
 def cd(files_list, curr_dir, path):
     start_dir = curr_dir
     if (len(path) > 0):
@@ -23,14 +24,15 @@ def cd(files_list, curr_dir, path):
         elif command + '/' in files_list:
             curr_dir = command + '/'
         else:
-            print('cd error: "' + path +'" no such directory')
+            print('cd error: "' + path + '" no such directory')
             return start_dir
     return curr_dir
+
 
 def ls(files_list, curr_dir):
     for path in files_list:
         if path.find(curr_dir) != -1:
-            subpath = path[len(curr_dir): : ]
+            subpath = path[len(curr_dir)::]
             cnt = subpath.count('/')
             if (cnt == 1 and subpath[-1] == '/') or (cnt == 0 and subpath != ''):
                 if subpath[-1] == '/':
@@ -38,12 +40,14 @@ def ls(files_list, curr_dir):
                 print(subpath, end='\t')
     print()
 
+
 def pwd(curr_dir):
     if curr_dir == '':
         print('/root')
     else:
         print('/root/' + curr_dir[0:-1])
-    
+
+
 def cat(files_list, curr_dir, path, zip_name):
     index = path.rfind('/')
     tmp_dir = curr_dir
@@ -58,21 +62,23 @@ def cat(files_list, curr_dir, path, zip_name):
     else:
         print('cat error: "' + tmp_dir + path + '" no such file or directory')
 
+
 args = sys.argv
 if len(args) != 2:
     print('Error, no file system')
     exit()
 command_line = ''
 zip_name = args[1]
+print(args)
 files_list = zipfile.ZipFile(zip_name, 'r').namelist()
 curr_dir = ''
 # curr_dir = cd(files_list, curr_dir, "Archive")
 while command_line != 'exit':
-    print('[root@localhost ', end = '')
+    print('[root@localhost ', end='')
     if curr_dir == '':
-        print('~]', end = '# ')
+        print('~]', end='# ')
     else:
-        print(curr_dir[('/' + curr_dir[0: -1]).rfind('/'): -1] + ']', end = '# ')
+        print(curr_dir[('/' + curr_dir[0: -1]).rfind('/'): -1] + ']', end='# ')
     command_line = input()
     command = command_line.split()
     if command[0] == 'cd':
